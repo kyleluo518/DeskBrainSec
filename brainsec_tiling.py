@@ -137,7 +137,8 @@ def grabCZI(path, verbose = False):
 
 WSI_DIR = ''  #TO-DO: add path to your folder of WSIs
 SAVE_DIR = '' #TO-DO: add path to your saved tiles
-
+# source: BrainSec svs_to_png.py
+TILE_SIZE = 30000
 
 wsi_slides = os.listdir(WSI_DIR)
 imagenames = sorted(wsi_slides)
@@ -160,7 +161,7 @@ for imagename in tqdm(imagenames[:]):
             
         print("Loaded Image: " + WSI_DIR + imagename)    
         
-        vips_utils.save_and_tile(vips_img, os.path.splitext(imagename)[0], SAVE_DIR, tile_size = TILE_SIZE)
+        save_and_tile(vips_img, os.path.splitext(imagename)[0], SAVE_DIR, tile_size = TILE_SIZE)
         print("Done Tiling: ", WSI_DIR + imagename)
         
     elif imagename.split('.')[-1] == 'czi':
@@ -169,9 +170,8 @@ for imagename in tqdm(imagenames[:]):
 
         vips_img = grabCZI(WSI_DIR + imagename)
         print("Loaded Image: " + WSI_DIR + imagename)
-        
     
-        vips_utils.save_and_tile(vips_img, os.path.splitext(imagename)[0], SAVE_DIR, tile_size = TILE_SIZE)
+        save_and_tile(vips_img, os.path.splitext(imagename)[0], SAVE_DIR, tile_size = TILE_SIZE)
 
         print("Done Tiling: ", WSI_DIR + imagename)
               
