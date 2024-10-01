@@ -1,3 +1,4 @@
+#!/usr/bin/env python3.10
 import os
 import pandas as pd
 import glob
@@ -5,7 +6,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pyvips as Vips
 from tqdm import tqdm
-from utils import vips_utils, normalize
 from torchvision import transforms, utils
 import time
 import torchvision.models as models
@@ -14,8 +14,6 @@ import torch.nn.functional as F
 from PIL import Image, ImageFile
 import statistics
 from typing import Optional, Tuple
-import pylibczi
-from pylibczi import CziScene
 import czifile
 from czifile import CziFile 
 import xml.etree.ElementTree as ET
@@ -135,8 +133,8 @@ def grabCZI(path, verbose = False):
     return vips
 
 
-WSI_DIR = ''  #TO-DO: add path to your folder of WSIs
-SAVE_DIR = '' #TO-DO: add path to your saved tiles
+WSI_DIR = 'data/'  #TO-DO: add path to your folder of WSIs
+SAVE_DIR = 'tiles/' #TO-DO: add path to your saved tiles
 # source: BrainSec svs_to_png.py
 TILE_SIZE = 30000
 
@@ -154,26 +152,27 @@ if not os.path.exists(SAVE_DIR):
 print("Starting tiling....")
 for imagename in tqdm(imagenames[:]):
     start = time.time()
+    imagepath = WSI_DIR + "/" + imagename
     if imagename.split('.')[-1] == 'svs':
         NAID = imagename.split('.')[0]
         print("Loading", imagename, " ......")
-        vips_img = Vips.Image.new_from_file(WSI_DIR + imagename, level=0)
+        vips_img = Vips.Image.new_from_file(imagepath, level=0)
             
-        print("Loaded Image: " + WSI_DIR + imagename)    
+        print("Loaded Image: " + imagepath)    
         
         save_and_tile(vips_img, os.path.splitext(imagename)[0], SAVE_DIR, tile_size = TILE_SIZE)
-        print("Done Tiling: ", WSI_DIR + imagename)
+        print("Done Tiling: ", imagepath)
         
     elif imagename.split('.')[-1] == 'czi':
         NAID = imagename.split('.')[0]
         print("Loading", imagename, " ......")
 
-        vips_img = grabCZI(WSI_DIR + imagename)
-        print("Loaded Image: " + WSI_DIR + imagename)
+        vips_img = grabCZI(imagepath)
+        print("Loaded Image: " + imagepath)
     
         save_and_tile(vips_img, os.path.splitext(imagename)[0], SAVE_DIR, tile_size = TILE_SIZE)
 
-        print("Done Tiling: ", WSI_DIR + imagename)
+        print("Done Tiling: ", imagepath)
               
 
     else:
