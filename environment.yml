@@ -1,17 +1,22 @@
 name: brainsec
 channels:
   - defaults
+  - conda-forge
 dependencies:
   - python==3.10.0
   - pip
+  - pillow
+  - pyvips
   - numpy
   - pandas
   - scikit-learn
   - scikit-image
+  - matplotlib
   - torchvision
   - pip:
+    - czifile
     - torch
     - opencv-python
-    - tdqm
+    - tqdm
     - beautifulsoup4
     - argparse
