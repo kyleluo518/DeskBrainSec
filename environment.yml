@@ -5,15 +5,15 @@ channels:
 dependencies:
   - python==3.10.0
   - pip
-  - pillow
-  - pyvips
-  - numpy
-  - pandas
-  - scikit-learn
-  - scikit-image
-  - matplotlib
-  - torchvision
   - pip:
+    - pillow
+    - pyvips
+    - numpy
+    - pandas
+    - scikit-learn
+    - scikit-image
+    - matplotlib
+    - torchvision
     - czifile
     - torch
     - opencv-python
